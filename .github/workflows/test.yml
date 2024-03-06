@@ -1,0 +1,36 @@
+name: "Test"
+
+on:
+
+  push:
+    branches: ["master"]
+  
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          token: ${{ github.token }}
+
+      - name: evaluate
+        id: bruh
+        run: |
+          echo ${{ github.workflow }}-${{ github.ref }}
+
+      - name: sleep
+        id: eepy
+        run: |
+          sleep 10000000
