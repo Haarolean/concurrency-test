@@ -1,0 +1,31 @@
+name: "Reusable test"
+
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    env:
+      CI: true
+      NODE_ENV: dev
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Disabling shallow clone is recommended for improving relevancy of reporting
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
+          token: ${{ github.token }}
+
+      - name: evaluate
+        id: bruh33
+        run: |
+          echo ${{ github.workflow }}-${{ github.ref }}
+
+      - name: sleep
+        id: eepy
+        run: |
+          sleep 10000000
